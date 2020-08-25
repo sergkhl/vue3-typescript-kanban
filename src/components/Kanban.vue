@@ -42,6 +42,7 @@
 
 <script lang="ts">
 import { useKanban } from '@/core/hooks/useKanban'
+import { IBlock } from '@/pages/board/index.vue'
 import { DragulaOptions } from 'dragula'
 import {
   computed,
@@ -53,17 +54,24 @@ import {
   Ref,
   ref,
 } from 'vue'
+import { AnyStateNodeDefinition } from 'xstate'
+
+// interface IKanbanProps {
+//   stages: string[]
+//   blocks: IBlock[]
+//   config: DragulaOptions
+//   stateMachineConfig: AnyStateNodeDefinition
+// }
 
 export default defineComponent({
   name: 'Kanban',
-
   props: {
     stages: {
       type: Array as PropType<string[]>,
       required: true,
     },
     blocks: {
-      type: Array,
+      type: Array as PropType<IBlock[]>,
       required: true,
     },
     config: {
@@ -71,7 +79,7 @@ export default defineComponent({
       default: () => ({}),
     },
     stateMachineConfig: {
-      type: Object,
+      type: Object as PropType<AnyStateNodeDefinition>,
       default: null,
     },
   },

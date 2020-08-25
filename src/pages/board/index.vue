@@ -1,6 +1,11 @@
 <template>
   <div>
-    <Kanban :stages="statuses" :blocks="blocks" @update-block="updateBlock">
+    <Kanban
+      :state-machine-config="stateMachineConfig"
+      :stages="statuses"
+      :blocks="blocks"
+      @update-block="updateBlock"
+    >
       <template v-for="stage in statuses" #[stage]>
         <div :key="stage">
           <h2>
@@ -36,8 +41,9 @@ export type IBlock = {
 import faker from 'faker'
 import _debounce from 'lodash/debounce'
 import Kanban from '@/components/Kanban.vue'
-import { onMounted, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { CARD_STATUSES } from '@/core/constants'
+import { StateNodeDefinition } from 'xstate'
 
 export default {
   name: 'Board',
@@ -46,6 +52,34 @@ export default {
   },
   setup() {
     const blocks = ref<IBlock[]>([])
+
+    // as StateNodeDefinition<typeof stateMachineConfig, any, any>
+    const stateMachineConfig = reactive({
+      id: 'kanban',
+      initial: 'on-hold',
+      states: {
+        'on-hold': {
+          on: {
+            PICK_UP: 'in-progress',
+          },
+        },
+        'in-progress': {
+          on: {
+            RELINQUISH_TASK: 'on-hold',
+            PUSH_TO_QA: 'needs-review',
+          },
+        },
+        'needs-review': {
+          on: {
+            REQUEST_CHANGE: 'in-progress',
+            PASS_QA: 'approved',
+          },
+        },
+        approved: {
+          type: 'final',
+        },
+      },
+    })
 
     const updateBlock = _debounce(function (id, status) {
       const block = blocks.value.find((b) => b.id === Number(id))
@@ -69,7 +103,13 @@ export default {
       }
     })
 
-    return { statuses: CARD_STATUSES, blocks, updateBlock, addBlock }
+    return {
+      statuses: CARD_STATUSES,
+      blocks,
+      updateBlock,
+      addBlock,
+      stateMachineConfig,
+    }
   },
 }
 </script>

@@ -1,5 +1,5 @@
 import { Ref, ref, onMounted, onBeforeMount, computed } from 'vue'
-import { Machine, StateMachine, MachineConfig } from 'xstate'
+import { Machine, AnyStateNodeDefinition } from 'xstate'
 import dragula, { DragulaOptions } from 'dragula'
 import { CARD_STATUSES } from '@/core/constants'
 
@@ -19,7 +19,7 @@ export function useKanban(
   props: {
     blocks: any[]
     config: DragulaOptions
-    stateMachineConfig: any
+    stateMachineConfig: AnyStateNodeDefinition
   },
   emit: Function,
   idProp: string,
@@ -160,6 +160,7 @@ export function useKanban(
   onBeforeMount(() => {
     if (props.stateMachineConfig) {
       machine.value = Machine(props.stateMachineConfig)
+      console.log({ machine })
     }
   })
 
