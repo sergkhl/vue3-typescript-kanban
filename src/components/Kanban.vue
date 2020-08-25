@@ -18,17 +18,19 @@
           class="drag-inner-list"
           :data-status="stage"
         >
-          <li
-            v-for="block in getBlocks(stage)"
-            :key="block[idProp]"
-            class="drag-item"
-            :data-block-id="block[idProp]"
-          >
-            <slot :name="block[idProp]">
-              <strong>{{ block[statusProp] }}</strong>
-              <div>{{ block[idProp] }}</div>
-            </slot>
-          </li>
+          <transition-group name="fade">
+            <li
+              v-for="block in getBlocks(stage)"
+              :key="block[idProp]"
+              class="drag-item"
+              :data-block-id="block[idProp]"
+            >
+              <slot :name="block[idProp]">
+                <strong>{{ block[statusProp] }}</strong>
+                <div>{{ block[idProp] }}</div>
+              </slot>
+            </li>
+          </transition-group>
         </ul>
         <div class="drag-column-footer">
           <slot :name="`footer-${stage}`"></slot>
@@ -104,7 +106,6 @@ export default defineComponent({
 
     onUpdated(() => {
       if (drake.value && listRefs.value) {
-        console.log('updated', listRefs)
         drake.value.containers = listRefs.value
       }
     })

@@ -7,7 +7,8 @@
   }
 
   .drag-column-footer > div {
-    margin-left: 10px;
+    margin-left: var(--gutter-2);
+    padding-bottom: var(--gutter-2);
     a {
       text-decoration: none;
       color: white;
@@ -51,7 +52,7 @@
 }
 
 .section {
-  padding: 20px;
+  padding: calc(var(--gutter-2) * 2);
   text-align: center;
 
   a {
@@ -81,7 +82,7 @@ ul.drag-inner-list {
 
 .drag-container {
   max-width: 1000px;
-  margin: 20px auto;
+  margin: calc(var(--gutter-2) * 2) auto;
 }
 
 .drag-list {
@@ -95,7 +96,7 @@ ul.drag-inner-list {
 
 .drag-column {
   flex: 1;
-  margin: 0 10px;
+  margin: 0 var(--gutter-2);
   position: relative;
   @apply bg-opacity-25 bg-black;
   overflow: hidden;
@@ -116,24 +117,23 @@ ul.drag-inner-list {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px;
+  padding: var(--gutter-2);
 }
 
 .drag-inner-list {
-  min-height: 50px;
-  color: white;
+  min-height: var(--gutter-4);
 }
 
 .drag-item {
-  padding: 10px;
-  margin: 10px;
-  height: 100px;
+  padding: var(--gutter-2);
+  margin: var(--gutter-2);
+  min-height: var(--gutter-4);
   @apply transition-kanban;
-  @apply bg-opacity-40 bg-black;
+  @apply bg-opacity-40 bg-black text-white;
 
   &.is-moving {
-    transform: scale(1.5);
-    @apply bg-opacity-75 bg-black;
+    transform: scale(1.1);
+    @apply bg-opacity-60 bg-black;
   }
 }
 
@@ -147,7 +147,7 @@ ul.drag-inner-list {
   left: 0;
   width: 100%;
   height: 100%;
-  padding: 10px;
+  padding: var(--gutter-2);
   transform: translateX(100%);
   opacity: 0;
   @apply transition-kanban;
@@ -180,8 +180,8 @@ ul.drag-inner-list {
   position: fixed !important;
   margin: 0 !important;
   z-index: 9999 !important;
-  opacity: 0.8;
   list-style-type: none;
+  @apply opacity-60;
 }
 
 .gu-hide {

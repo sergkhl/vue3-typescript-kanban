@@ -37,7 +37,7 @@ import faker from 'faker'
 import _debounce from 'lodash/debounce'
 import Kanban from '@/components/Kanban.vue'
 import { onMounted, ref } from 'vue'
-import { CARD_STATUSES } from '@/core/hooks/useKanban'
+import { CARD_STATUSES } from '@/core/constants'
 
 export default {
   name: 'Board',

@@ -29,7 +29,10 @@ const localTransitionDuration = {
 }
 
 const cssVarSpacing = {
-  toolbar: 'var(--toolbar-height)',
+  'gutter-1': 'var(--gutter-1)',
+  'gutter-2': 'var(--gutter-2)',
+  'gutter-3': 'var(--gutter-3)',
+  'gutter-4': 'var(--gutter-4)',
 }
 
 const fractionSpacing = {

@@ -11,17 +11,15 @@
 </template>
 
 <script lang="ts">
+import { ICONS } from '@/core/constants'
 import { computed, defineComponent, PropType } from 'vue'
 
-const icons = {
-  dashboard: 'M13,3V9H21V3M13,21H21V11H13M3,21H11V15H3M3,13H11V3H3V13Z',
-} as const
 export default defineComponent({
   props: {
-    name: { type: String as PropType<keyof typeof icons>, required: true },
+    name: { type: String as PropType<keyof typeof ICONS>, required: true },
   },
   setup(props) {
-    const path = computed(() => icons[props.name])
+    const path = computed(() => ICONS[props.name])
     return { path }
   },
 })

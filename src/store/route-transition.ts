@@ -1,11 +1,10 @@
 import { PersistentStore } from './base'
+import { TRANSITION_NAMES } from '@/core/constants'
 
 const STORE_NAME = 'ROUTE_TRANSITION'
 
-const TRANSITION_NAMES = ['', 'left', 'right'] as const
-
 export const initialValues = {
-  transitionName: '' as typeof TRANSITION_NAMES[number],
+  transitionName: 'fade' as typeof TRANSITION_NAMES[number],
 }
 
 export type IRouteTransitionStore = typeof initialValues

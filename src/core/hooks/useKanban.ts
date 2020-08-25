@@ -1,13 +1,7 @@
 import { Ref, ref, onMounted, onBeforeMount, computed } from 'vue'
 import { Machine, StateMachine, MachineConfig } from 'xstate'
 import dragula, { DragulaOptions } from 'dragula'
-
-export const CARD_STATUSES = [
-  'on-hold',
-  'in-progress',
-  'needs-review',
-  'approved',
-] as const
+import { CARD_STATUSES } from '@/core/constants'
 
 interface IListElement extends Element {
   dataset?: {
@@ -94,7 +88,6 @@ export function useKanban(
     config.mirrorContainer = rootRef.value
     drake.value = dragula(listRefs.value, config)
       .on('drag', (el: IBlockElement, source: IListElement) => {
-        console.log('drag', el)
         emit('drag', el, source)
         el.classList.add('is-moving')
         allowedTargets(el, source)?.forEach((c) => c.classList.add('allowed'))
@@ -162,7 +155,6 @@ export function useKanban(
         emit('cloned', clone, original, type)
       })
     emit('init', drake)
-    console.log({ drake, list: listRefs.value?.length, config })
   })
 
   onBeforeMount(() => {
