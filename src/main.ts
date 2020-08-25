@@ -8,7 +8,6 @@ if (process.env.NODE_ENV === 'development') {
   new Vconsole()
 }
 
-import '@/assets/style/tailwind.css'
 const app = createApp(App as any)
 app.use(router)
 app.mount('#app')

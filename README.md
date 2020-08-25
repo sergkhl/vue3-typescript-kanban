@@ -10,6 +10,12 @@ It is template for Vue Next + Typescript
 - [Github](https://github.com/vuejs/vue-next)
 - [RFCs](https://github.com/vuejs/rfcs/pulls?q=is%3Apr+is%3Amerged+label%3A3.x)
 
+## vue-router
+
+- [![alpha](https://img.shields.io/npm/v/vue-router/next.svg)](https://www.npmjs.com/package/vue-router/v/next)
+- [Github](https://github.com/vuejs/vue-router-next)
+- [RFCs](https://github.com/vuejs/rfcs/pulls?q=is%3Apr+is%3Amerged+label%3Arouter)
+
 ---
 
 <!-- omit in toc -->

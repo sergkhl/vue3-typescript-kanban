@@ -1,27 +1,29 @@
 <template>
-  <Kanban :stages="statuses" :blocks="blocks" @update-block="updateBlock">
-    <template #stage>
-      <div v-for="stage in statuses" :key="stage">
-        <h2>
-          {{ stage }}
-          <a>+</a>
-        </h2>
-      </div>
-    </template>
-    <template #[item.id]>
-      <div v-for="item in blocks" :key="item.id">
-        <div><strong>id:</strong> {{ item.id }}</div>
-        <div>
-          {{ item.title }}
+  <div>
+    <Kanban :stages="statuses" :blocks="blocks" @update-block="updateBlock">
+      <template v-for="stage in statuses" #[stage]>
+        <div :key="stage">
+          <h2>
+            {{ stage }}
+            <a>+</a>
+          </h2>
         </div>
-      </div>
-    </template>
-    <template #[`footer-${stage}`]>
-      <div v-for="stage in statuses" :key="stage">
-        <a href="" @click.prevent="() => addBlock(stage)">+ Add new block</a>
-      </div>
-    </template>
-  </Kanban>
+      </template>
+      <template v-for="item in blocks" #[item.id]>
+        <div :key="item.id">
+          <div><strong>id:</strong> {{ item.id }}</div>
+          <div>
+            {{ item.title }}
+          </div>
+        </div>
+      </template>
+      <template v-for="stage in statuses" #[`footer-${stage}`]>
+        <div :key="stage">
+          <a href="" @click.prevent="() => addBlock(stage)">+ Add new block</a>
+        </div>
+      </template>
+    </Kanban>
+  </div>
 </template>
 
 <script lang="ts">
@@ -71,3 +73,7 @@ export default {
   },
 }
 </script>
+
+<style lang="postcss">
+@import 'kanban.css';
+</style>

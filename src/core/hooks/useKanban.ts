@@ -31,7 +31,7 @@ export function useKanban(
   idProp: string,
   statusProp: string,
   rootRef: Ref<Element>,
-  listRef: Ref<Element[]>,
+  listRefs: Ref<Element[]>,
 ) {
   const localBlocks = computed(() => props.blocks)
   const drake = ref<dragula.Drake>()
@@ -91,8 +91,9 @@ export function useKanban(
   onMounted(() => {
     props.config.accepts = props.config.accepts || accepts
     props.config.mirrorContainer = rootRef.value
-    drake.value = dragula(listRef.value, props.config)
+    drake.value = dragula(listRefs.value, props.config)
       .on('drag', (el: IBlockElement, source: IListElement) => {
+        console.log('drag', el)
         emit('drag', el, source)
         el.classList.add('is-moving')
         allowedTargets(el, source)?.forEach((c) => c.classList.add('allowed'))
@@ -160,6 +161,7 @@ export function useKanban(
         emit('cloned', clone, original, type)
       })
     emit('init', drake)
+    console.log({ drake, list: listRefs.value?.length, conf: props.config })
   })
 
   onBeforeMount(() => {

@@ -1,5 +1,14 @@
 module.exports = {
   devServer: {
-    https: false,
+    https: true,
+  },
+  css: {
+    loaderOptions: {
+      postcss: {
+        config: {
+          path: './postcss.config.js',
+        },
+      },
+    },
   },
 }

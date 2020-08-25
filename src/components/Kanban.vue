@@ -2,7 +2,7 @@
   <div ref="rootRef" class="drag-container">
     <ul class="drag-list">
       <li
-        v-for="stage in stages"
+        v-for="(stage, index) in stages"
         :key="stage"
         class="drag-column"
         :class="{ ['drag-column-' + stage]: true }"
@@ -13,7 +13,7 @@
           </slot>
         </span>
         <div class="drag-options"></div>
-        <ul ref="listRef" class="drag-inner-list" :data-status="stage">
+        <ul :ref="listRefs[index]" class="drag-inner-list" :data-status="stage">
           <li
             v-for="block in getBlocks(stage)"
             :key="block[idProp]"
@@ -85,7 +85,7 @@ export default defineComponent({
   ],
 
   setup(props, { emit }) {
-    const listRef = (ref(null) as unknown) as Ref<Element[]>
+    const listRefs = (ref([]) as unknown) as Ref<Element[]>
     const rootRef = (ref(null) as unknown) as Ref<Element>
     const idProp = 'id'
     const statusProp = 'status'
@@ -95,17 +95,24 @@ export default defineComponent({
       idProp,
       statusProp,
       rootRef,
-      listRef,
+      listRefs,
     )
 
     onUpdated(() => {
-      if (drake.value && listRef.value) {
-        drake.value.containers = (listRef.value as unknown) as Element[]
+      if (drake.value && listRefs.value) {
+        console.log('updated', listRefs)
+        drake.value.containers = listRefs.value
         // drake.value.mirrorContainer = $el
       }
     })
 
-    return { getBlocks, idProp, statusProp, listRef }
+    onMounted(() => {
+      setTimeout(() => {
+        console.log(listRefs)
+      }, 300)
+    })
+
+    return { getBlocks, idProp, statusProp, listRefs }
   },
 })
 </script>

@@ -1,8 +1,9 @@
 <template>
   <div>
     <NavTop />
-    <div @touchstart="handleTouchStart" @touchend="handleTouchEnd">
-      <router-view v-slot="{ Component }">
+    <!-- <div @touchstart="handleTouchStart" @touchend="handleTouchEnd"> -->
+    <router-view>
+      <template #default="{ Component }">
         <transition-group
           :name="routerTransitionState.transitionName"
           :duration="500"
@@ -15,8 +16,9 @@
           /></keep-alive>
           <component :is="Component" v-else key="home-router-key" />
         </transition-group>
-      </router-view>
-    </div>
+      </template>
+    </router-view>
+    <!-- </div> -->
   </div>
 </template>
 
@@ -47,9 +49,11 @@ export default {
     let touchStartX = 0
     let touchEndX = 0
     const handleTouchStart = (e) => {
+      console.log(e)
       touchStartX = e.changedTouches[0].clientX
     }
     const handleTouchEnd = (e) => {
+      console.log(e)
       touchEndX = e.changedTouches[0].clientX
       if (touchStartX > touchEndX && touchStartX - touchEndX > 50) {
         console.log(route)

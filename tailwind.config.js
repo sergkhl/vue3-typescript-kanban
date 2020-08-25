@@ -29,17 +29,6 @@ const localTransitionDuration = {
 }
 
 const cssVarSpacing = {
-  'gutter-1/2': 'var(--gutter-1--half)',
-  'gutter-1': 'var(--gutter-1)',
-  'gutter-2': 'var(--gutter-2)',
-  'gutter-3': 'var(--gutter-3)',
-  'gutter-4': 'var(--gutter-4)',
-  'gutter-5': 'var(--gutter-5)',
-  'gutter-grid': 'var(--gutter-grid)',
-  'gutter-grid-1/2': 'var(--gutter-grid--half)',
-  'gutter-nav-button': 'var(--gutter-nav-button)',
-  'element-md': 'var(--element-md)',
-  'element-lg': 'var(--element-lg)',
   toolbar: 'var(--toolbar-height)',
 }
 
@@ -61,11 +50,6 @@ const fractionSpacing = {
 }
 
 const staticSpacing = {
-  '600px': '600px',
-  '500px': '500px',
-  '450px': '450px',
-  '400px': '400px',
-  '200px': '200px',
   '100px': '100px',
 }
 
@@ -75,6 +59,10 @@ const localTransitionProperty = {
 }
 
 module.exports = {
+  experimental: {
+    // https://github.com/tailwindlabs/tailwindcss/pull/2159
+    applyComplexClasses: true,
+  },
   future: {
     removeDeprecatedGapUtilities: true,
   },
@@ -120,9 +108,18 @@ module.exports = {
       opacity: localOpacity,
     },
   },
-  // variants: {
-  //   opacity: ['responsive', 'hover', 'focus', 'group-hover'],
-  // },
+  variants: {
+    textColor: ['responsive', 'hover', 'focus', 'group-hover'],
+    bgColor: ['responsive', 'hover', 'focus', 'group-hover'],
+    gradientColorStops: [
+      'responsive',
+      'hover',
+      'focus',
+      'active',
+      'group-hover',
+    ],
+    animation: ['responsive', 'hover', 'focus', 'group-hover'],
+  },
   plugins: [],
   purge: {
     // Learn more on https://tailwindcss.com/docs/controlling-file-size/#removing-unused-css

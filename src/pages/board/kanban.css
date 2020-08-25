@@ -1,0 +1,197 @@
+.drag-column {
+  .drag-column-header > div {
+    width: 100%;
+    h2 > a {
+      float: right;
+    }
+  }
+
+  .drag-column-footer > div {
+    margin-left: 10px;
+    a {
+      text-decoration: none;
+      color: white;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &-on-hold {
+    .drag-column-header,
+    .is-moved,
+    .drag-options {
+      @apply bg-yellow-600 hover:bg-yellow-300;
+    }
+  }
+
+  &-in-progress {
+    .drag-column-header,
+    .is-moved,
+    .drag-options {
+      @apply bg-indigo-600 hover:bg-indigo-300;
+    }
+  }
+
+  &-needs-review {
+    .drag-column-header,
+    .is-moved,
+    .drag-options {
+      @apply bg-teal-600 hover:bg-teal-300;
+    }
+  }
+
+  &-approved {
+    .drag-column-header,
+    .is-moved,
+    .drag-options {
+      @apply bg-green-600 hover:bg-green-300;
+    }
+  }
+}
+
+.section {
+  padding: 20px;
+  text-align: center;
+
+  a {
+    color: white;
+    text-decoration: none;
+    font-weight: 300;
+  }
+
+  h4 {
+    font-weight: 400;
+    a {
+      font-weight: 600;
+    }
+  }
+}
+
+.transition-kanban {
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+ul.drag-list,
+ul.drag-inner-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.drag-container {
+  max-width: 1000px;
+  margin: 20px auto;
+}
+
+.drag-list {
+  display: flex;
+  align-items: flex-start;
+
+  @media (max-width: 690px) {
+    display: block;
+  }
+}
+
+.drag-column {
+  flex: 1;
+  margin: 0 10px;
+  position: relative;
+  @apply bg-opacity-25 bg-black;
+  overflow: hidden;
+
+  @media (max-width: 690px) {
+    margin-bottom: 30px;
+  }
+
+  h2 {
+    font-size: 0.8rem;
+    margin: 0;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+}
+
+.drag-column-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.drag-inner-list {
+  min-height: 50px;
+  color: white;
+}
+
+.drag-item {
+  padding: 10px;
+  margin: 10px;
+  height: 100px;
+  @apply transition-kanban;
+  @apply bg-opacity-40 bg-black;
+
+  &.is-moving {
+    transform: scale(1.5);
+    @apply bg-opacity-75 bg-black;
+  }
+}
+
+.drag-header-more {
+  cursor: pointer;
+}
+
+.drag-options {
+  position: absolute;
+  top: 44px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  transform: translateX(100%);
+  opacity: 0;
+  @apply transition-kanban;
+
+  &.active {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  &-label {
+    display: block;
+    margin: 0 0 5px 0;
+
+    input {
+      opacity: 0.6;
+    }
+
+    span {
+      display: inline-block;
+      font-size: 0.9rem;
+      font-weight: 400;
+      margin-left: 5px;
+    }
+  }
+}
+
+/* Dragula CSS  */
+
+.gu-mirror {
+  position: fixed !important;
+  margin: 0 !important;
+  z-index: 9999 !important;
+  opacity: 0.8;
+  list-style-type: none;
+}
+
+.gu-hide {
+  display: none !important;
+}
+
+.gu-unselectable {
+  user-select: none !important;
+}
+
+.gu-transit {
+  opacity: 0.2;
+}
