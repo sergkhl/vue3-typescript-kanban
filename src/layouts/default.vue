@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import NavTop from '@/components/NavTop'
+import NavTop from '@/components/NavTop.vue'
 import { routeTransitionStore } from '@/store/route-transition'
 import { useRouter, useRoute } from 'vue-router'
 export default {

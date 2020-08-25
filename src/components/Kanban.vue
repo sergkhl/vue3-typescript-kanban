@@ -13,7 +13,11 @@
           </slot>
         </span>
         <div class="drag-options"></div>
-        <ul :ref="listRefs[index]" class="drag-inner-list" :data-status="stage">
+        <ul
+          :ref="addListRef(index)"
+          class="drag-inner-list"
+          :data-status="stage"
+        >
           <li
             v-for="block in getBlocks(stage)"
             :key="block[idProp]"
@@ -102,17 +106,14 @@ export default defineComponent({
       if (drake.value && listRefs.value) {
         console.log('updated', listRefs)
         drake.value.containers = listRefs.value
-        // drake.value.mirrorContainer = $el
       }
     })
 
-    onMounted(() => {
-      setTimeout(() => {
-        console.log(listRefs)
-      }, 300)
-    })
+    const addListRef = (index: number) => (el: Element) => {
+      listRefs.value[index] = el
+    }
 
-    return { getBlocks, idProp, statusProp, listRefs }
+    return { getBlocks, idProp, statusProp, listRefs, rootRef, addListRef }
   },
 })
 </script>

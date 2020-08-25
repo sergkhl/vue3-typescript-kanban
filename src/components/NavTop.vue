@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="group">
+    <RouterLink class="group" to="/">
       <h1 class="text-6xl font-bold flex items-center">
         <Icon
           name="dashboard"
@@ -12,7 +12,7 @@
           KANBAN
         </span>
       </h1>
-    </div>
+    </RouterLink>
     <!-- <div>
       <NavTopItem
         v-for="(item, index) in navList"

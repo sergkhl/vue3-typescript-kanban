@@ -36,6 +36,7 @@ export function useKanban(
   const localBlocks = computed(() => props.blocks)
   const drake = ref<dragula.Drake>()
   const machine = ref()
+  let config: DragulaOptions = { ...props.config }
 
   const getBlocks = (status: string) => {
     return localBlocks.value.filter((block) => block[statusProp] === status)
@@ -89,9 +90,9 @@ export function useKanban(
   }
 
   onMounted(() => {
-    props.config.accepts = props.config.accepts || accepts
-    props.config.mirrorContainer = rootRef.value
-    drake.value = dragula(listRefs.value, props.config)
+    config.accepts = config.accepts || accepts
+    config.mirrorContainer = rootRef.value
+    drake.value = dragula(listRefs.value, config)
       .on('drag', (el: IBlockElement, source: IListElement) => {
         console.log('drag', el)
         emit('drag', el, source)
@@ -161,7 +162,7 @@ export function useKanban(
         emit('cloned', clone, original, type)
       })
     emit('init', drake)
-    console.log({ drake, list: listRefs.value?.length, conf: props.config })
+    console.log({ drake, list: listRefs.value?.length, config })
   })
 
   onBeforeMount(() => {
