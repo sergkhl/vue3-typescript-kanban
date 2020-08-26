@@ -2,7 +2,8 @@
 
 # Vue 3 Typescript Kanban
 
-It is template for Vue Next + Typescript
+Template for Vue Next + Typescript
+### [Demo](https://sergkhl.github.io/vue3-typescript-kanban/)
 
 ## vue-next
 
