@@ -18,7 +18,7 @@
           class="drag-inner-list"
           :data-status="stage"
         >
-          <transition-group name="fade">
+          <transition-group name="right">
             <li
               v-for="block in getBlocks(stage)"
               :key="block[idProp]"
@@ -42,7 +42,7 @@
 
 <script lang="ts">
 import { useKanban } from '@/core/hooks/useKanban'
-import { IBlock } from '@/pages/board/index.vue'
+import { IBlock } from '@/core/types'
 import { DragulaOptions } from 'dragula'
 import {
   computed,

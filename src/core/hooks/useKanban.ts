@@ -160,7 +160,6 @@ export function useKanban(
   onBeforeMount(() => {
     if (props.stateMachineConfig) {
       machine.value = Machine(props.stateMachineConfig)
-      console.log({ machine })
     }
   })
 

@@ -1,19 +1,46 @@
 {
-  "posts": [
-    {
-      "id": 1,
-      "title": "json-server",
-      "author": "typicode"
-    }
-  ],
-  "comments": [
-    {
-      "id": 1,
-      "body": "some comment",
-      "postId": 1
-    }
-  ],
-  "profile": {
-    "name": "typicode"
+  "KANBAN": {
+    "blocks": [
+      {
+        "id": 0,
+        "status": "approved",
+        "title": "deploy extensible ROI"
+      },
+      {
+        "id": 1,
+        "status": "in-progress",
+        "title": "integrate ubiquitous action-items"
+      },
+      {
+        "id": 2,
+        "status": "needs-review",
+        "title": "target clicks-and-mortar initiatives"
+      },
+      {
+        "id": 3,
+        "status": "needs-review",
+        "title": "enable back-end communities"
+      },
+      {
+        "id": 4,
+        "status": "in-progress",
+        "title": "morph compelling action-items"
+      },
+      {
+        "id": 5,
+        "status": "in-progress",
+        "title": "transition cross-media e-business"
+      },
+      {
+        "id": 6,
+        "status": "on-hold",
+        "title": "iterate turn-key experiences"
+      },
+      {
+        "id": 7,
+        "status": "in-progress",
+        "title": "empower cross-media niches"
+      }
+    ]
   }
 }

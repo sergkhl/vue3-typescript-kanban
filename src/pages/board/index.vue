@@ -3,7 +3,7 @@
     <Kanban
       :state-machine-config="stateMachineConfig"
       :stages="statuses"
-      :blocks="blocks"
+      :blocks="kanbanState.blocks"
       @update-block="updateBlock"
     >
       <template v-for="stage in statuses" #[stage]>
@@ -14,7 +14,7 @@
           </h2>
         </div>
       </template>
-      <template v-for="item in blocks" #[item.id]>
+      <template v-for="item in kanbanState.blocks" #[item.id]>
         <div :key="item.id">
           <div><strong>id:</strong> {{ item.id }}</div>
           <div>
@@ -32,17 +32,13 @@
 </template>
 
 <script lang="ts">
-export type IBlock = {
-  id: number
-  status: string
-  title: string
-}
-
 import faker from 'faker'
 import _debounce from 'lodash/debounce'
 import Kanban from '@/components/Kanban.vue'
-import { onMounted, reactive, ref } from 'vue'
+import { onBeforeMount, reactive, ref } from 'vue'
 import { CARD_STATUSES } from '@/core/constants'
+import { IBlock } from '@/core/types'
+import { kanbanStore } from '@/store/kanban'
 import { StateNodeDefinition } from 'xstate'
 
 export default {
@@ -51,9 +47,10 @@ export default {
     Kanban,
   },
   setup() {
-    const blocks = ref<IBlock[]>([])
+    const kanbanState = kanbanStore.getState()
 
     // as StateNodeDefinition<typeof stateMachineConfig, any, any>
+    // https://xstate.js.org/docs/packages/xstate-fsm/#super-quick-start
     const stateMachineConfig = reactive({
       id: 'kanban',
       initial: 'on-hold',
@@ -81,34 +78,43 @@ export default {
       },
     })
 
-    const updateBlock = _debounce(function (id, status) {
-      const block = blocks.value.find((b) => b.id === Number(id))
+    const updateBlock = (
+      id: string | number,
+      status: typeof CARD_STATUSES[number],
+    ) => {
+      const block = kanbanState.blocks.find((b) => b.id === Number(id))
       block && (block.status = status)
-    }, 500)
-    const addBlock = _debounce(function (stage) {
-      blocks.value.push({
-        id: blocks.value.length,
+    }
+
+    const addBlock = (stage: typeof CARD_STATUSES[number]) => {
+      kanbanState.blocks.push({
+        id: kanbanState.blocks.length,
         status: stage,
         title: faker.company.bs(),
       })
-    }, 500)
+    }
 
-    onMounted(() => {
-      for (let i = 0; i <= 10; i += 1) {
-        blocks.value.push({
-          id: i,
-          status: CARD_STATUSES[Math.floor(Math.random() * 4)],
-          title: faker.company.bs(),
-        })
+    onBeforeMount(async () => {
+      await kanbanStore.init()
+
+      if (!kanbanState.blocks.length) {
+        console.log('fill with new blocks')
+        for (let i = 0; i <= 10; i += 1) {
+          kanbanState.blocks.push({
+            id: i,
+            status: CARD_STATUSES[Math.floor(Math.random() * 4)],
+            title: faker.company.bs(),
+          })
+        }
       }
     })
 
     return {
       statuses: CARD_STATUSES,
-      blocks,
       updateBlock,
       addBlock,
       stateMachineConfig,
+      kanbanState,
     }
   },
 }

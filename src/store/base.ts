@@ -5,6 +5,26 @@ import _merge from 'lodash/merge'
 import _debounce from 'lodash/debounce'
 import { DeepPartial } from '@/core/utils/type-helpers'
 
+const baseUrl = 'http://127.0.0.1:3000'
+async function req(
+  path = '',
+  { body, method }: RequestInit = { method: 'GET' },
+) {
+  const response = await fetch(baseUrl + '/' + path, {
+    method,
+    body,
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+  })
+  return response.json()
+}
+
 const defaultOptionsSetState = { logging: true, merge: false }
 export abstract class Store<T extends Object> {
   protected state: UnwrapRef<T>
@@ -64,6 +84,7 @@ export abstract class Store<T extends Object> {
 export abstract class PersistentStore<T extends Object> extends Store<T> {
   private isInitialized = ref(false)
   private restoreStatePromise = ref<Promise<void> | null>(null)
+  private saveStatePromise = ref<Promise<void> | null>(null)
 
   constructor(readonly storeName: string) {
     super(storeName)
@@ -71,21 +92,31 @@ export abstract class PersistentStore<T extends Object> extends Store<T> {
 
   async restoreState() {
     const stateFromIndexedDB: string = await get(this.storeName)
+    let parsedLocalState: any
     if (stateFromIndexedDB) {
-      const parsed = JSON.parse(stateFromIndexedDB)
+      parsedLocalState = JSON.parse(stateFromIndexedDB)
       console.info(
-        'RESTORE SAVED STATE',
-        Object.keys(parsed).join(' | '),
-        parsed.PurchaseParams?.selected,
+        'RESTORED FROM LOCAL DB',
+        Object.keys(parsedLocalState).join(' | '),
       )
-      this.setState(parsed, { logging: false, merge: true })
+      this.setState(parsedLocalState, { logging: false, merge: true })
     }
+    req(this.storeName).then((remoteState) => {
+      if (!_isEqual(remoteState, parsedLocalState)) {
+        this.setState(remoteState, { logging: false, merge: true })
+        // TODO check timestamp
+        console.log('RESTORED FROM REMOTE', remoteState)
+      }
+    })
   }
 
-  saveState(val: any) {
+  async saveState(val: any) {
     const value = JSON.stringify(val)
     console.info('persistent state saved', value)
-    return set(this.storeName, value)
+    await Promise.all([
+      set(this.storeName, value),
+      req(this.storeName, { method: 'POST', body: value }),
+    ])
   }
 
   async init() {
