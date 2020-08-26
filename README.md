@@ -1,6 +1,6 @@
 <!-- omit in toc -->
 
-# Vue 3 Typescript Kanban
+# Vue 3 Typescript Kanban [![Build Status](https://travis-ci.org/sergkhl/vue3-typescript-kanban.svg?branch=master)](https://travis-ci.org/sergkhl/vue3-typescript-kanban)
 
 Template for Vue Next + Typescript
 ### [Demo](https://sergkhl.github.io/vue3-typescript-kanban/)
