@@ -40,7 +40,7 @@
   "homepage": "https://github.com/sergkhl/vue3-typescript-kanban#readme",
   "dependencies": {
     "dragula": "^3.7.2",
-    "faker": "^5.0.0",
+    "faker": "^5.1.0",
     "idb-keyval": "^3.2.0",
     "lodash": "^4.17.20",
     "tailwindcss": "^1.7.3",
