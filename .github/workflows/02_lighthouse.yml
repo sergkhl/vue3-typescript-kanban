@@ -1,0 +1,27 @@
+---
+  name: "lighthouseci"
+  on:
+    workflow_run:
+      workflows: ["build"]
+      branches: [master]
+      types: 
+        - completed
+
+  jobs:
+    lighthouseci:
+      name: Lighthouse
+      runs-on: ubuntu-20.04
+      env:
+        # https://github.com/GoogleChrome/lighthouse-ci/blob/master/docs/configuration.md
+        LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}  
+      steps:
+        - name: Use Node.js
+          uses: actions/setup-node@v2-beta
+          with:
+            node-version: '14'
+            check-latest: true
+
+        - name: run Lighthouse CI 🧪
+          run: |
+            npm install -g @lhci/cli@0.4.x
+            lhci autorun

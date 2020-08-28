@@ -3,7 +3,9 @@
 module.exports = {
   ci: {
     collect: {
-      numberOfRuns: 5,
+      url: ['https://sergkhl.github.io/vue3-typescript-kanban/'],
+      // startServerCommand: 'rails server -e production',
+      numberOfRuns: 3,
     },
     assert: {
       preset: 'lighthouse:recommended',
