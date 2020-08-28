@@ -6,26 +6,20 @@
       :blocks="kanbanState.blocks"
       @update-block="updateBlock"
     >
-      <template v-for="stage in statuses" #[stage]>
-        <div :key="stage">
-          <h2>
-            {{ stage }}
-            <a>+</a>
-          </h2>
+      <template v-for="stage in statuses" :key="stage" #[stage]>
+        <h2>
+          {{ stage }}
+          <a>+</a>
+        </h2>
+      </template>
+      <template v-for="item in kanbanState.blocks" :key="item.id" #[item.id]>
+        <div><strong>id:</strong> {{ item.id }}</div>
+        <div>
+          {{ item.title }}
         </div>
       </template>
-      <template v-for="item in kanbanState.blocks" #[item.id]>
-        <div :key="item.id">
-          <div><strong>id:</strong> {{ item.id }}</div>
-          <div>
-            {{ item.title }}
-          </div>
-        </div>
-      </template>
-      <template v-for="stage in statuses" #[`footer-${stage}`]>
-        <div :key="stage">
-          <a href="" @click.prevent="() => addBlock(stage)">+ Add new block</a>
-        </div>
+      <template v-for="stage in statuses" :key="stage" #[`footer-${stage}`]>
+        <a href="" @click.prevent="() => addBlock(stage)">+ Add new block</a>
       </template>
     </Kanban>
   </div>
@@ -35,13 +29,13 @@
 import faker from 'faker'
 import _debounce from 'lodash/debounce'
 import Kanban from '@/components/Kanban.vue'
-import { onBeforeMount, reactive, ref } from 'vue'
+import { defineComponent, onBeforeMount, reactive, ref } from 'vue'
 import { CARD_STATUSES } from '@/core/constants'
 import { IBlock } from '@/core/types'
 import { kanbanStore } from '@/store/kanban'
 import { StateNodeDefinition } from 'xstate'
 
-export default {
+export default defineComponent({
   name: 'Board',
   components: {
     Kanban,
@@ -117,7 +111,7 @@ export default {
       kanbanState,
     }
   },
-}
+})
 </script>
 
 <style lang="postcss">
