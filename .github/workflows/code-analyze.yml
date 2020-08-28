@@ -3,12 +3,7 @@
   
   name: CodeQL action
 
-  on:
-    push:
-      branches: [master]
-    pull_request:
-    schedule:
-      - cron: '0 9 * * 4'  
+  on: workflow_dispatch
 
   jobs:
     analyze:
