@@ -1,0 +1,6 @@
+{
+  "name": "Deploy",
+  "description": "Deploy to Github Pages",
+  "iconName": "server-upload",
+  "categories": ["CI", "Deployment"]
+}

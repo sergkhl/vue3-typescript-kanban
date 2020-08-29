@@ -1,0 +1,6 @@
+{
+  "name": "Lighthouse",
+  "description": "Analize in Lighthouse",
+  "iconName": "test-tube",
+  "categories": ["CI", "Analyze"]
+}

@@ -2,7 +2,14 @@
 
 # Vue 3 Typescript Kanban [![Build Status](https://travis-ci.org/sergkhl/template-workflows-typescript-vue3.svg?branch=master)](https://travis-ci.org/sergkhl/template-workflows-typescript-vue3)
 
+<p align="left">
+  <a href="https://github.com/sergkhl/template-workflows-typescript-vue3/actions?query=workflow%3Abuild%20%26%20test"><img alt="build-test status" src="https://github.com/sergkhl/template-workflows-typescript-vue3/workflows/build%20%26%20test/badge.svg?branch=master&event=push"></a>
+  <a href="https://github.com/sergkhl/template-workflows-typescript-vue3/actions?query=workflow%3Adeploy"><img alt="deploy-gh-pages status" src="https://github.com/sergkhl/template-workflows-typescript-vue3/workflows/Deploy/badge.svg"></a>
+  <a href="https://github.com/sergkhl/template-workflows-typescript-vue3/actions?query=workflow%3Alighthouse%20audit"><img alt="lighthouseci status" src="https://github.com/sergkhl/template-workflows-typescript-vue3/workflows/lighthouse%20audit/badge.svg"></a>
+</p>
+
 Template for Vue Next + Typescript
+
 ### [Demo](https://sergkhl.github.io/template-workflows-typescript-vue3/)
 
 ## vue-next

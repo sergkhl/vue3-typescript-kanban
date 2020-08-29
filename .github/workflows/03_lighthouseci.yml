@@ -1,0 +1,32 @@
+---
+# TODO https://github.com/GoogleChrome/lighthouse-ci/blob/master/docs/server.md
+# https://github.com/GoogleChrome/lighthouse-ci/blob/master/docs/configuration.md
+name: 'Lighthouse Audit'
+on:
+  workflow_run:
+    workflows: ['Deploy']
+    types:
+      - completed
+
+jobs:
+  lighthouseci:
+    name: Lighthouse
+    # if: ${{ github.event.workflow_run.conclusion == 'success' }}\
+    # https://github.community/t/workflow-run-completed-event-triggered-by-failed-workflow/128001/2
+    runs-on: ubuntu-20.04
+    env:
+      # https://github.com/GoogleChrome/lighthouse-ci/blob/master/docs/configuration.md
+      LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+    steps:
+      - name: Use Node.js
+        uses: actions/setup-node@v2.1.1
+        with:
+          node-version: '14'
+          check-latest: true
+
+      - name: run Lighthouse CI 🧪
+        run: |
+          npm install -g @lhci/cli@0.4.x
+          lhci collect
+          lhci assert
+          lhci upload --githubToken="$LHCI_GITHUB_APP_TOKEN"

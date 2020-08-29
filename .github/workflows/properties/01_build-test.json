@@ -1,0 +1,6 @@
+{
+  "name": "Build",
+  "description": "Build and test project",
+  "iconName": "build",
+  "categories": ["CI", "Node"]
+}
