@@ -5,7 +5,8 @@ module.exports = {
     collect: {
       url: ['https://sergkhl.github.io/template-workflows-typescript-vue3/'],
       // startServerCommand: 'rails server -e production',
-      numberOfRuns: 3,
+      numberOfRuns: 1,
+      staticDistDir: null,
     },
     assert: {
       preset: 'lighthouse:recommended',

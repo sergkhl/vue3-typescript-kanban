@@ -1,5 +1,4 @@
 ---
-# TODO https://github.com/GoogleChrome/lighthouse-ci/blob/master/docs/server.md
 # https://github.com/GoogleChrome/lighthouse-ci/blob/master/docs/configuration.md
 name: 'Lighthouse Audit'
 on:
@@ -24,9 +23,14 @@ jobs:
           node-version: '14'
           check-latest: true
 
-      - name: run Lighthouse CI 🧪
-        run: |
-          npm install -g @lhci/cli@0.4.x
-          lhci collect --config=./.lighthouserc.js
-          lhci assert --config=./.lighthouserc.js
-          lhci upload --githubToken="$LHCI_GITHUB_APP_TOKEN" --config=./.lighthouserc.js
+      - name: Audit URLs using Lighthouse
+        uses: treosh/lighthouse-ci-action@v3
+        with:
+          configPath: './.lighthouserc.js'
+
+      # - name: run Lighthouse CI 🧪
+      #   run: |
+      #     npm install -g @lhci/cli@0.4.x
+      #     lhci collect --config=./.lighthouserc.js
+      #     lhci assert --config=./.lighthouserc.js
+      #     lhci upload --githubToken="$LHCI_GITHUB_APP_TOKEN" --config=./.lighthouserc.js
