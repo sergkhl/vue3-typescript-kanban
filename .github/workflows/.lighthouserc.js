@@ -3,7 +3,9 @@
 module.exports = {
   ci: {
     collect: {
-      numberOfRuns: 5,
+      url: ['https://sergkhl.github.io/template-workflows-typescript-vue3/'],
+      // startServerCommand: 'rails server -e production',
+      numberOfRuns: 3,
     },
     assert: {
       preset: 'lighthouse:recommended',

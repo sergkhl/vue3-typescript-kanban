@@ -2,18 +2,11 @@
   # https://github.com/github/codeql-action
   
   name: CodeQL action
-
-  on:
-    push:
-      branches: [master]
-    pull_request:
-    schedule:
-      - cron: '0 9 * * 4'  
-
+  on: workflow_dispatch
   jobs:
     analyze:
       name: Analyze
-      runs-on: ubuntu-latest
+      runs-on: ubuntu-20.04
       steps:
       - name: Checkout repository
         uses: actions/checkout@v2

@@ -2,8 +2,7 @@
   # https://docs.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow
   # triggers https://docs.github.com/en/actions/reference/events-that-trigger-workflows
   
-  name: CI
-  
+  name: build
   on:
     push:
       branches: [master]
@@ -11,14 +10,14 @@
       branches: [master]
 
   jobs:
-    build-check-deploy:
-      name: Lighthouse
-      runs-on: ubuntu-latest
+    test-build-deploy:
+      name: "Test, Build, Deploy"
+      runs-on: ubuntu-20.04
       steps:
-        - name Checkout 🛎️
-            uses: actions/checkout@v2
-            with:
-              persist-credentials: false
+        - name: Checkout 🛎️
+          uses: actions/checkout@v2
+          with:
+            persist-credentials: false
 
         - name: Use Node.js
           uses: actions/setup-node@v2-beta
@@ -31,13 +30,8 @@
             npm install
             npm run build
 
-        - name: run Lighthouse CI 🧪
-          run: |
-            npm install -g @lhci/cli@0.4.x
-            lhci autorun
-
         - name: Deploy 🚀
-            uses: peaceiris/actions-gh-pages@v3
-            with:
-              github_token: ${{ secrets.GITHUB_TOKEN }}
-              publish_dir: ./dist
+          uses: peaceiris/actions-gh-pages@v3
+          with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            publish_dir: ./dist
