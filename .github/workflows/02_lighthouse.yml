@@ -3,9 +3,10 @@
   on:
     workflow_run:
       workflows: ["build"]
-      branches: [master]
+      # branches: [master]
       types: 
-        - completed
+      - completed
+      - requested
 
   jobs:
     lighthouseci:

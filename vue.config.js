@@ -1,6 +1,8 @@
 module.exports = {
   publicPath:
-    process.env.NODE_ENV === 'production' ? '/vue3-typescript-kanban/' : '/',
+    process.env.NODE_ENV === 'production'
+      ? '/template-workflows-typescript-vue3/'
+      : '/',
   devServer: {
     https: true,
   },

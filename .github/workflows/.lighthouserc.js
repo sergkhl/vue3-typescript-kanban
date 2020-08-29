@@ -3,7 +3,7 @@
 module.exports = {
   ci: {
     collect: {
-      url: ['https://sergkhl.github.io/vue3-typescript-kanban/'],
+      url: ['https://sergkhl.github.io/template-workflows-typescript-vue3/'],
       // startServerCommand: 'rails server -e production',
       numberOfRuns: 3,
     },
