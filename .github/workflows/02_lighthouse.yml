@@ -17,7 +17,7 @@
         LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}  
       steps:
         - name: Use Node.js
-          uses: actions/setup-node@v2-beta
+          uses: actions/setup-node@v2.1.1
           with:
             node-version: '14'
             check-latest: true
