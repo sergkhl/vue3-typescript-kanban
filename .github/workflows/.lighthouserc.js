@@ -15,10 +15,10 @@ module.exports = {
       // },
     },
     upload: {
-      "target": "temporary-public-storage"
-    //   target: 'lhci',
-    //   serverBaseUrl: 'https://your-lhci-server-url.example.com',
-    //   token: 'Your *build token* goes here', // could also use LHCI_TOKEN variable instead
+      target: 'temporary-public-storage',
+      //   target: 'lhci',
+      //   serverBaseUrl: 'https://your-lhci-server-url.example.com',
+      //   token: 'Your *build token* goes here', // could also use LHCI_TOKEN variable instead
     },
   },
 }
