@@ -1,0 +1,125 @@
+# https://docs.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow
+# triggers https://docs.github.com/en/actions/reference/events-that-trigger-workflows
+
+name: Build
+on:
+  push:
+    branches: [master]
+    paths-ignore:
+      - 'docs/**'
+  pull_request:
+    branches: [master, 'feature/**']
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Use Node.js
+        uses: actions/setup-node@v2.1.1
+        with:
+          node-version: '14'
+          check-latest: true
+
+      - name: Install and Build 🔧
+        run: |
+          npm install
+          npm run build
+
+      # https://github.com/actions/upload-artifact
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: |
+            .github/lighthouse/lighthouserc.js
+            dist
+            !dist/**/*.md
+          if-no-files-found: error
+
+  deploy:
+    name: Deploy
+    needs: Build
+    runs-on: ubuntu-20.04
+    steps:
+      # https://github.com/marketplace/actions/deployment-action
+      - uses: chrnorm/deployment-action@releases/v1
+        name: Create GitHub deployment
+        id: deployment
+        with:
+          token: '${{ github.token }}'
+          target_url: https://sergkhl.github.io/template-workflows-typescript-vue3/
+          environment: production
+
+      # https://github.com/actions/download-artifact
+      - name: Download artifacts
+        id: download
+        uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: ./
+      - name: Display structure of files
+        run: ls -R
+      - name: 'Echo download path'
+        run: echo ${{steps.download.outputs.download-path}}
+
+        # https://github.com/peaceiris/actions-gh-pages
+      - name: Deploy 🚀
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+
+      - name: Update deployment status (success)
+        if: success()
+        uses: chrnorm/deployment-status@releases/v1
+        with:
+          token: "${{ github.token }}"
+          target_url: https://sergkhl.github.io/template-workflows-typescript-vue3/
+          state: "success"
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+
+      - name: Update deployment status (failure)
+        if: failure()
+        uses: chrnorm/deployment-status@releases/v1
+        with:
+          token: "${{ github.token }}"
+          target_url: https://sergkhl.github.io/template-workflows-typescript-vue3/
+          state: "failure"
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+
+
+  # lighthouseci:
+  #   name: Lighthouse Audit
+  #   needs: Build
+  #   runs-on: ubuntu-20.04
+  #   env:
+  #     LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+  #   steps:
+  #     - name: Download artifacts
+  #       id: download
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: dist
+  #         path: ./
+  #     - name: Display structure of files
+  #       run: ls -R
+  #     - name: 'Echo download path'
+  #       run: echo ${{steps.download.outputs.download-path}}
+
+  #     - name: Use Node.js
+  #       uses: actions/setup-node@v2.1.1
+  #       with:
+  #         node-version: '14'
+  #         check-latest: true
+
+  #     # https://github.com/treosh/lighthouse-ci-action#recipes
+  #     - name: Audit URLs using Lighthouse
+  #       uses: treosh/lighthouse-ci-action@v3
+  #       with:
+  #         configPath: '.github/lighthouse/lighthouserc.js'

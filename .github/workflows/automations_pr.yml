@@ -1,19 +1,20 @@
-# https://github.com/actions/github-script
-name: "PR"
+name: 'PR'
 on: pull_request
 
 jobs:
-  label:
+  pr-actions:
+    name: "PR Actions"
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/labeler@v2
-      with:
-        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+      # https://github.com/actions/labeler
+      - name: Add Labels
+        uses: actions/labeler@v2
+        with:
+          repo-token: '${{ secrets.GITHUB_TOKEN }}'
 
-  welcome:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/github-script@v3
+      # https://github.com/actions/github-script
+      - name: Welcome
+        uses: actions/github-script@v3
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
