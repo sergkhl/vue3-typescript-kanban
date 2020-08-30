@@ -33,6 +33,7 @@ jobs:
           npm install
           npm run build
 
+      # https://github.com/actions/upload-artifact
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
         with:
@@ -40,17 +41,27 @@ jobs:
           path: |
             dist
             !dist/**/*.md
+          if-no-files-found: error
 
+      - name: Display structure of files
+        run: ls -R
 
   deploy:
     name: Deploy
     needs: Build
     runs-on: ubuntu-20.04
     steps:
+      # https://github.com/actions/download-artifact
       - name: Download artifacts
+        id: download
         uses: actions/download-artifact@v2
         with:
           name: dist
+          path: dist
+      - name: Display structure of files
+        run: ls -R
+      - name: 'Echo download path'
+        run: echo ${{steps.download.outputs.download-path}}
       - name: Deploy 🚀
         uses: peaceiris/actions-gh-pages@v3
         with:
