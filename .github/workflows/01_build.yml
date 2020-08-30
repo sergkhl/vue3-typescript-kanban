@@ -3,7 +3,7 @@
 # triggers https://docs.github.com/en/actions/reference/events-that-trigger-workflows
 # TODO https://github.com/actions/github-script
 
-name: 'Build'
+name: Build
 on:
   push:
     branches: [master]
@@ -14,7 +14,7 @@ on:
 
 jobs:
   build:
-    name: 'Build'
+    name: Build
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout 🛎️
@@ -43,7 +43,8 @@ jobs:
 
 
   deploy:
-    name: 'Deploy'
+    name: Deploy
+    needs: Build
     runs-on: ubuntu-20.04
     steps:
       - name: Download artifacts
