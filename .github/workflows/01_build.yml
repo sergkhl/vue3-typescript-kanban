@@ -3,7 +3,7 @@
 # triggers https://docs.github.com/en/actions/reference/events-that-trigger-workflows
 # TODO https://github.com/actions/github-script
 
-name: 'Build & Test'
+name: 'Build'
 on:
   push:
     branches: [master]
@@ -40,3 +40,19 @@ jobs:
           path: |
             dist
             !dist/**/*.md
+
+
+  deploy:
+    name: 'Deploy'
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: dist
+      - name: Deploy 🚀
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+
