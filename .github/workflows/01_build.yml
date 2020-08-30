@@ -94,32 +94,32 @@ jobs:
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
 
 
-  lighthouseci:
-    name: Lighthouse Audit
-    needs: Build
-    runs-on: ubuntu-20.04
-    env:
-      LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
-    steps:
-      - name: Download artifacts
-        id: download
-        uses: actions/download-artifact@v2
-        with:
-          name: dist
-          path: ./
-      - name: Display structure of files
-        run: ls -R
-      - name: 'Echo download path'
-        run: echo ${{steps.download.outputs.download-path}}
+  # lighthouseci:
+  #   name: Lighthouse Audit
+  #   needs: Build
+  #   runs-on: ubuntu-20.04
+  #   env:
+  #     LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+  #   steps:
+  #     - name: Download artifacts
+  #       id: download
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: dist
+  #         path: ./
+  #     - name: Display structure of files
+  #       run: ls -R
+  #     - name: 'Echo download path'
+  #       run: echo ${{steps.download.outputs.download-path}}
 
-      - name: Use Node.js
-        uses: actions/setup-node@v2.1.1
-        with:
-          node-version: '14'
-          check-latest: true
+  #     - name: Use Node.js
+  #       uses: actions/setup-node@v2.1.1
+  #       with:
+  #         node-version: '14'
+  #         check-latest: true
 
-      # https://github.com/treosh/lighthouse-ci-action#recipes
-      - name: Audit URLs using Lighthouse
-        uses: treosh/lighthouse-ci-action@v3
-        with:
-          configPath: '.github/lighthouse/lighthouserc.js'
+  #     # https://github.com/treosh/lighthouse-ci-action#recipes
+  #     - name: Audit URLs using Lighthouse
+  #       uses: treosh/lighthouse-ci-action@v3
+  #       with:
+  #         configPath: '.github/lighthouse/lighthouserc.js'
