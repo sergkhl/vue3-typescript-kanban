@@ -6,7 +6,7 @@ module.exports = {
       // url: ['https://sergkhl.github.io/template-workflows-typescript-vue3/'],
       // startServerCommand: 'rails server -e production',
       numberOfRuns: 1,
-      staticDistDir: './',
+      staticDistDir: './dist',
       // staticDistDir: null,
     },
     assert: {
