@@ -76,7 +76,7 @@ jobs:
 
       - name: Update deploy status
         if: always()
-        uses: unacast/actions-github-deployment-status@0.3
+        uses: unacast/actions-github-deployment-status@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           status: ${{ job.status }}
@@ -89,6 +89,11 @@ jobs:
     env:
       LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
     steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          
       - name: Use Node.js
         uses: actions/setup-node@v2.1.1
         with:
