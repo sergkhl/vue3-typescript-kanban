@@ -18,6 +18,10 @@ jobs:
     env:
       LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
     steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
       - name: Use Node.js
         uses: actions/setup-node@v2.1.1
         with:
@@ -28,7 +32,7 @@ jobs:
       - name: Audit URLs using Lighthouse
         uses: treosh/lighthouse-ci-action@v3
         with:
-          configPath: '.github/lighthouse/lighthouserc.js'
+          configPath: '.github/lighthouse/lighthouserc-gh-pages.js'
 
       # - name: run Lighthouse CI 🧪
       #   run: |
