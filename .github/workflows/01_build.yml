@@ -1,7 +1,5 @@
----
 # https://docs.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow
 # triggers https://docs.github.com/en/actions/reference/events-that-trigger-workflows
-# TODO https://github.com/actions/github-script
 
 name: Build
 on:
@@ -43,28 +41,63 @@ jobs:
             !dist/**/*.md
           if-no-files-found: error
 
-      - name: Display structure of files
-        run: ls -R
-
   deploy:
     name: Deploy
     needs: Build
     runs-on: ubuntu-20.04
     steps:
+      # # https://github.com/marketplace/actions/deployment-action
+      # - uses: chrnorm/deployment-action@releases/v1
+      #   name: Create GitHub deployment
+      #   id: deployment
+      #   with:
+      #     token: '${{ github.token }}'
+      #     target_url: https://sergkhl.github.io/template-workflows-typescript-vue3/
+      #     environment: production
+
       # https://github.com/actions/download-artifact
       - name: Download artifacts
         id: download
         uses: actions/download-artifact@v2
         with:
           name: dist
-          path: dist
+          path: ./
       - name: Display structure of files
         run: ls -R
       - name: 'Echo download path'
         run: echo ${{steps.download.outputs.download-path}}
+
+        # https://github.com/peaceiris/actions-gh-pages
       - name: Deploy 🚀
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          publish_dir: ./
 
+      - name: Update deploy status
+        if: always()
+        uses: unacast/actions-github-deployment-status@0.3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+          description: "The description to create. Restricted to 140 chars"
+
+
+  lighthouseci:
+    name: Lighthouse Audit
+    runs-on: ubuntu-20.04
+    env:
+      LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+    steps:
+      - name: Use Node.js
+        uses: actions/setup-node@v2.1.1
+        with:
+          node-version: '14'
+          check-latest: true
+
+      # https://github.com/treosh/lighthouse-ci-action#recipes
+      - name: Audit URLs using Lighthouse
+        uses: treosh/lighthouse-ci-action@v3
+        with:
+          configPath: './.lighthouserc.js'
+          uploadArtifacts: true

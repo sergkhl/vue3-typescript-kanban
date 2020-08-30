@@ -1,0 +1,69 @@
+name: Continuous Delivery
+
+on:
+  push:
+    branches:
+      - SUSPEND
+
+jobs:
+  # https://github.com/ridedott/release-me-action
+  release:
+    if: contains(github.event.commits[0].message, 'chore(release)') == false
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          # Fetch all history.
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Setup Node.js
+        uses: actions/setup-node@v2.1.1
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          key: npm-${{ hashFiles('package-lock.json') }}
+          path: ~/.npm
+          restore-keys: |
+            npm-
+      - name: Install dependencies
+        run: npm ci --ignore-scripts --no-audit --no-progress --prefer-offline
+      - name: Build
+        run: npm run build
+      - env:
+          GITHUB_TOKEN: ${{ secrets.DOTTBOTT_TOKEN }}
+        id: release
+        name: Release
+        uses: ridedott/release-me-action@master
+        with:
+          commit-assets: |
+            ./dist
+          node-module: true
+          release-rules: |
+            [
+              { "release": "patch", "type": "build" },
+              { "release": "patch", "type": "chore" },
+              { "release": false, "type": "chore", "scope": "deps-dev" },
+              { "release": "patch", "type": "chore", "scope": "deps-dev", "subject": "bump typescript from*" },
+              { "release": "patch", "type": "chore", "scope": "deps-dev", "subject": "bump @zeit/ncc from*" },
+              { "release": "patch", "type": "ci" },
+              { "release": "patch", "type": "improvement" },
+              { "release": "patch", "type": "refactor" },
+              { "release": false, "subject": "*\\[skip release\\]*" }
+            ]
+      - if: steps.release.outputs.released == 'true'
+        name: Authenticate
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+          persist-credentials: true
+          token: ${{ secrets.DOTTBOTT_TOKEN }}
+      - if: steps.release.outputs.released == 'true'
+        name: Tag
+        run: |
+          git config --global user.name '{{ secrets.DOTTBOTT_USER_NAME }}'
+          git config --global user.email '{{ secrets.DOTTBOTT_USER_EMAIL }}'
+          git push origin :refs/tags/'v${{ steps.release.outputs.major }}'
+          git tag 'v${{ steps.release.outputs.major }}' --force
+          git push --tags

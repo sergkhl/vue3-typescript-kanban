@@ -1,11 +1,11 @@
----
 # https://github.com/GoogleChrome/lighthouse-ci/blob/master/docs/configuration.md
 
 name: 'Lighthouse Audit'
+
 on:
   # run after
   workflow_run:
-    workflows: ['Build']
+    workflows: ['SUSPEND']
     types:
       - completed
 
