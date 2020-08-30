@@ -37,6 +37,7 @@ jobs:
         with:
           name: dist
           path: |
+            ./.lighthouserc.js
             dist
             !dist/**/*.md
           if-no-files-found: error
@@ -85,15 +86,22 @@ jobs:
 
   lighthouseci:
     name: Lighthouse Audit
+    needs: Build
     runs-on: ubuntu-20.04
     env:
       LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
     steps:
-      - name: Checkout 🛎️
-        uses: actions/checkout@v2
+      - name: Download artifacts
+        id: download
+        uses: actions/download-artifact@v2
         with:
-          persist-credentials: false
-          
+          name: dist
+          path: ./
+      - name: Display structure of files
+        run: ls -R
+      - name: 'Echo download path'
+        run: echo ${{steps.download.outputs.download-path}}
+
       - name: Use Node.js
         uses: actions/setup-node@v2.1.1
         with:
