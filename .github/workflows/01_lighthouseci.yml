@@ -5,7 +5,7 @@ name: 'Lighthouse Audit'
 on:
   # run after
   workflow_run:
-    workflows: ['SUSPEND']
+    workflows: ['Build']
     types:
       - completed
 
@@ -28,8 +28,7 @@ jobs:
       - name: Audit URLs using Lighthouse
         uses: treosh/lighthouse-ci-action@v3
         with:
-          configPath: './.lighthouserc.js'
-          uploadArtifacts: true
+          configPath: '.github/lighthouse/lighthouserc.js'
 
       # - name: run Lighthouse CI 🧪
       #   run: |
