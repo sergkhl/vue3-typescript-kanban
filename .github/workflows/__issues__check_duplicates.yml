@@ -1,0 +1,46 @@
+name: 'Issue Open Check Duplicates'
+on: 
+  issues:
+    types: [opened]
+
+jobs:
+  check-duplicates:
+    name: "Search for duplicate issues"
+    runs-on: ubuntu-latest
+    steps:
+      # https://github.com/actions/github-script
+      # github api: https://octokit.github.io/rest.js
+      # context api: https://github.com/actions/toolkit/blob/main/packages/github/src/context.ts
+      # payload: https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads
+      # search api: https://developer.github.com/v3/search/#search-issues-and-pull-requests
+      # https://docs.github.com/en/github/searching-for-information-on-github/searching-issues-and-pull-requests
+      - name: "Search for duplicate issues"
+        uses: actions/github-script@v3
+        with:
+          script: |
+            const q = `"${context.payload.issue.title}"+repo:${context.repo.owner}/${context.repo.repo}&type=issues&sort=created&order=desc&per_page=5`
+            const req = github.search.issuesAndPullRequests({
+              q,
+            });
+
+            const issues = await github.paginate(opts)
+
+            if (issues.length < 2) {
+              return
+            }
+
+            let body = ''
+            for (const issue of issues) {
+              if (issue.number === context.issue.number) {
+                continue
+              }
+
+              body += 'Duplicate of #' + issue.number + '\n\n'
+            }
+
+            await github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            })

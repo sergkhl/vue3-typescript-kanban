@@ -1,9 +1,10 @@
 ---
 name: User Support
-about: Questions for this Action
+about: Questions
 title: 'sample_title'
 labels: support
-assignees: peaceiris
+assignees: sergkhl
+projects: 
 ---
 
 **Note that an issue which does not follow the template will be closed silently.**
@@ -12,11 +13,11 @@ assignees: peaceiris
 
 - [ ] I read the latest README of this repository.
 
-For users of the GitHub Pages Action:
+For users of the {{ module.name }}:
 
-- [ ] I checked [Available Options](https://github.com/peaceiris/actions-gh-pages#options)
-- [ ] I followed [Tips and FAQs](https://github.com/peaceiris/actions-gh-pages#tips-and-faq)
-- [ ] I tried [Workflow Examples](https://github.com/peaceiris/actions-gh-pages#examples)
+- [ ] I checked [Available Options]
+- [ ] I followed [Tips and FAQs]
+- [ ] I tried [Examples]
 
 ## Describe your question
 

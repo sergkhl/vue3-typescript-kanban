@@ -9,8 +9,9 @@ tests:
   - test/**/*
 automation:
   - .github/**/*
-bash:
+utils:
   - scripts/**/*
+  - utils/**/*
 server:
   - api/**/*
 components:

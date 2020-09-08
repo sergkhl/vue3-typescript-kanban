@@ -1,0 +1,97 @@
+name: "PR Processing"
+on: [push, pull_request]
+
+jobs:
+  auto-pr:
+    # if: ${{ github.event_name == 'push' && contains(join(['refs/heads/feature/', 'refs/heads/feat/', 'refs/heads/fix/', 'refs/heads/hotfix/', 'refs/heads/patch/', join(['refs/heads/', github.actor, '/'], ''), ','), github.ref) }}
+    if: ${{ github.event_name == 'push' && contains('refs/heads/sergkhl/, refs/heads/feature/, refs/heads/feat/, refs/heads/fix/, refs/heads/hotfix/, refs/heads/patch/, refs/heads/patch/', github.ref) }}
+    name: "Open Pull Request"
+    runs-on: ubuntu-latest
+    steps:
+      - name: vsoch/pull-request-action
+        uses: vsoch/pull-request-action@1.0.7
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PULL_REQUEST_BRANCH: "master"
+
+  
+  pr-triage:
+    if: ${{ github.event_name == 'pull_request' }}
+    name: "PR Triage"
+    runs-on: ubuntu-latest
+    steps:
+      # region * Add Labels based on Changes *
+      # https://github.com/actions/labeler
+      - name: Add Labels based on Changes
+        uses: actions/labeler@v2
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          configuration-path: .github/workflows.label-changes.yml
+      # endregion
+
+      # region * Add Labels based on Branch Name *
+      # https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions
+      - name: Add Labels based on Branch Name
+        if: ${{ github.event.action == 'opened' }}
+        uses: TimonVS/pr-labeler-action@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          configuration-path: .github/workflows.label-branches.yml
+      # endregion
+
+      # region * Welcome new contributors *
+      - name: Welcome
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            // Get a list of all issues created by the PR opener
+            // See: https://octokit.github.io/rest.js/#pagination
+            const creator = context.payload.sender.login
+            const opts = github.issues.listForRepo.endpoint.merge({
+              ...context.issue,
+              creator,
+              state: 'all'
+            })
+            const issues = await github.paginate(opts)
+
+            for (const issue of issues) {
+              if (issue.number == context.issue.number) {
+                continue
+              }
+
+              if (issue.pull_request) {
+                return // Creator is already a contributor.
+              }
+            }
+
+            await github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '👋 Welcome, new contributor!'
+            })
+      # endregion
+
+      # region * Automerge Dependabot *
+      # https://github.com/actions/github-script
+      # https://octokit.github.io/rest.js
+      - name: Automerge Dependabot
+        if: github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]'
+        uses: actions/github-script@v3
+        with:
+          script: |
+            github.pulls.createReview({
+              owner: context.payload.repository.owner.login,
+              repo: context.payload.repository.name,
+              pull_number: context.payload.pull_request.number,
+              event: 'APPROVE'
+            })
+            github.pulls.merge({
+              owner: context.payload.repository.owner.login,
+              repo: context.payload.repository.name,
+              pull_number: context.payload.pull_request.number
+            })
+          github-token: ${{github.token}}
+      # endregion

@@ -47,14 +47,14 @@ jobs:
     needs: Build
     runs-on: ubuntu-20.04
     steps:
-      # https://github.com/marketplace/actions/deployment-action
-      - uses: chrnorm/deployment-action@releases/v1
-        name: Create GitHub deployment
-        id: deployment
-        with:
-          token: '${{ github.token }}'
-          target_url: https://sergkhl.github.io/template-workflows-typescript-vue3/
-          environment: production
+      # # https://github.com/marketplace/actions/deployment-action
+      # - uses: chrnorm/deployment-action@releases/v1
+      #   name: Create GitHub deployment
+      #   id: deployment
+      #   with:
+      #     token: '${{ github.token }}'
+      #     target_url: https://sergkhl.github.io/template-workflows-typescript-vue3/
+      #     environment: production
 
       # https://github.com/actions/download-artifact
       - name: Download artifacts
@@ -75,23 +75,23 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
 
-      - name: Update deployment status (success)
-        if: success()
-        uses: chrnorm/deployment-status@releases/v1
-        with:
-          token: "${{ github.token }}"
-          target_url: https://sergkhl.github.io/template-workflows-typescript-vue3/
-          state: "success"
-          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+      # - name: Update deployment status (success)
+      #   if: success()
+      #   uses: chrnorm/deployment-status@releases/v1
+      #   with:
+      #     token: "${{ github.token }}"
+      #     target_url: https://sergkhl.github.io/template-workflows-typescript-vue3/
+      #     state: "success"
+      #     deployment_id: ${{ steps.deployment.outputs.deployment_id }}
 
-      - name: Update deployment status (failure)
-        if: failure()
-        uses: chrnorm/deployment-status@releases/v1
-        with:
-          token: "${{ github.token }}"
-          target_url: https://sergkhl.github.io/template-workflows-typescript-vue3/
-          state: "failure"
-          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+      # - name: Update deployment status (failure)
+      #   if: failure()
+      #   uses: chrnorm/deployment-status@releases/v1
+      #   with:
+      #     token: "${{ github.token }}"
+      #     target_url: https://sergkhl.github.io/template-workflows-typescript-vue3/
+      #     state: "failure"
+      #     deployment_id: ${{ steps.deployment.outputs.deployment_id }}
 
 
   # lighthouseci:
