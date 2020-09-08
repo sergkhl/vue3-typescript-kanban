@@ -3,11 +3,8 @@
 name: 'Lighthouse Audit'
 
 on:
-  # run after
-  workflow_run:
-    workflows: ['Build']
-    types:
-      - completed
+  pull_request:
+    branches: [master, 'feature/**']
 
 jobs:
   lighthouseci:

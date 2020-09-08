@@ -11,7 +11,7 @@ const IconX = ({
   ...other
 }: any) => {
   let iconName: keyof typeof ICONS = 'empty'
-  console.log(other, slots, children, scopedSlots)
+  // console.log(other, slots, children, scopedSlots)
   if (slots.default) {
     iconName = slots.default[0].text!.trim()
   }
