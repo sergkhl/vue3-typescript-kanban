@@ -1,0 +1,42 @@
+# https://github.com/GoogleChrome/lighthouse-ci/blob/master/docs/configuration.md
+
+name: 'Lighthouse Audit'
+
+on:
+  # run after
+  workflow_run:
+    workflows: ['Build']
+    types:
+      - completed
+
+jobs:
+  lighthouseci:
+    name: Lighthouse
+    # https://github.community/t/workflow-run-completed-event-triggered-by-failed-workflow/128001/2
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-20.04
+    env:
+      LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+      - name: Use Node.js
+        uses: actions/setup-node@v2.1.1
+        with:
+          node-version: '14'
+          check-latest: true
+
+      # https://github.com/treosh/lighthouse-ci-action#recipes
+      - name: Audit URLs using Lighthouse
+        uses: treosh/lighthouse-ci-action@v3
+        with:
+          configPath: '.github/lighthouse/lighthouserc-gh-pages.js'
+
+      # - name: run Lighthouse CI 🧪
+      #   run: |
+      #     npm install -g @lhci/cli@0.4.x
+      #     lhci collect --config=./.lighthouserc.js
+      #     lhci assert --config=./.lighthouserc.js
+      #     lhci upload --githubToken="$LHCI_GITHUB_APP_TOKEN" --config=./.lighthouserc.js
