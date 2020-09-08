@@ -3,7 +3,8 @@ on: [push, pull_request]
 
 jobs:
   auto-pr:
-    if: ${{ github.event_name == 'push' && contains(join(['refs/heads/feature/', 'refs/heads/feat/', 'refs/heads/fix/', 'refs/heads/hotfix/', 'refs/heads/patch/', join(['refs/heads/', github.actor, '/']), ','), github.ref) }}
+    # if: ${{ github.event_name == 'push' && contains(join(['refs/heads/feature/', 'refs/heads/feat/', 'refs/heads/fix/', 'refs/heads/hotfix/', 'refs/heads/patch/', join(['refs/heads/', github.actor, '/'], ''), ','), github.ref) }}
+    if: ${{ github.event_name == 'push' && contains('refs/heads/sergkhl/, refs/heads/feature/, refs/heads/feat/, refs/heads/fix/, refs/heads/hotfix/, refs/heads/patch/, refs/heads/patch/', github.ref) }}
     name: "Open Pull Request"
     runs-on: ubuntu-latest
     steps:
