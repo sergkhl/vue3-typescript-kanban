@@ -46,7 +46,7 @@
     "tailwindcss": "^1.8.10",
     "vconsole": "^3.3.4",
     "vue": "^3.0.0",
-    "vue-router": "^4.0.0-beta.10",
+    "vue-router": "^4.0.0-beta.11",
     "xstate": "^4.13.0"
   },
   "devDependencies": {
