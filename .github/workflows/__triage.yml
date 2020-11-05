@@ -23,7 +23,7 @@ jobs:
       # region * Add Labels based on Changes *
       # https://github.com/actions/labeler
       - name: Add Labels based on Changes
-        uses: actions/labeler@v2
+        uses: actions/labeler@v3
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           configuration-path: .github/workflows.label-changes.yml
