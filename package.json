@@ -53,7 +53,7 @@
     "@ant-design-vue/babel-plugin-jsx": "1.0.0-rc.1",
     "@types/dragula": "3.7.0",
     "@types/faker": "5.1.5",
-    "@types/jest": "26.0.16",
+    "@types/jest": "26.0.17",
     "@types/lodash": "4.14.165",
     "@typescript-eslint/eslint-plugin": "4.9.1",
     "@typescript-eslint/parser": "4.9.0",
