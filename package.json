@@ -63,7 +63,7 @@
     "@vue/cli-plugin-typescript": "4.5.9",
     "@vue/cli-service": "4.5.9",
     "@vue/compiler-sfc": "3.0.4",
-    "@xstate/vue": "0.3.0",
+    "@xstate/vue": "0.4.0",
     "concurrently": "5.3.0",
     "css-loader": "5.0.1",
     "cssnano": "4.1.10",
