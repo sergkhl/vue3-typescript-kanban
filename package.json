@@ -47,7 +47,7 @@
     "vconsole": "^3.3.4",
     "vue": "^3.0.5",
     "vue-router": "^4.0.2",
-    "xstate": "^4.15.3"
+    "xstate": "^4.15.4"
   },
   "devDependencies": {
     "@ant-design-vue/babel-plugin-jsx": "1.0.0-rc.1",
