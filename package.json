@@ -41,7 +41,7 @@
   "dependencies": {
     "dragula": "^3.7.3",
     "faker": "^5.1.0",
-    "idb-keyval": "^5.0.1",
+    "idb-keyval": "^5.0.2",
     "lodash": "^4.17.20",
     "tailwindcss": "^1.9.6",
     "vconsole": "^3.4.0",
