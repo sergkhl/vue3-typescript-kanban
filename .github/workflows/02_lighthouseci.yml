@@ -30,7 +30,7 @@ jobs:
 
       # https://github.com/treosh/lighthouse-ci-action#recipes
       - name: Audit URLs using Lighthouse
-        uses: treosh/lighthouse-ci-action@v3
+        uses: treosh/lighthouse-ci-action@7.0.0
         with:
           configPath: '.github/lighthouse/lighthouserc-gh-pages.js'
 
