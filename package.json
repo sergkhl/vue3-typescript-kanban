@@ -45,7 +45,7 @@
     "lodash": "^4.17.21",
     "tailwindcss": "^1.9.6",
     "vconsole": "^3.4.0",
-    "vue": "^3.0.5",
+    "vue": "^3.0.6",
     "vue-router": "^4.0.4",
     "xstate": "^4.16.2"
   },
@@ -62,7 +62,7 @@
     "@vue/cli-plugin-router": "4.5.11",
     "@vue/cli-plugin-typescript": "4.5.11",
     "@vue/cli-service": "4.5.11",
-    "@vue/compiler-sfc": "3.0.5",
+    "@vue/compiler-sfc": "3.0.6",
     "@xstate/vue": "0.4.0",
     "concurrently": "6.0.0",
     "css-loader": "5.0.2",
