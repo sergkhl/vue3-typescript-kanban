@@ -33,7 +33,7 @@ jobs:
       # https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions
       - name: Add Labels based on Branch Name
         if: ${{ github.event.action == 'opened' }}
-        uses: TimonVS/pr-labeler-action@v3
+        uses: TimonVS/pr-labeler-action@v3.1.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
