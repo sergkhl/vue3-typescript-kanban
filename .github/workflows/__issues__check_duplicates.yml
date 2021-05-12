@@ -15,7 +15,7 @@ jobs:
       # search api: https://developer.github.com/v3/search/#search-issues-and-pull-requests
       # https://docs.github.com/en/github/searching-for-information-on-github/searching-issues-and-pull-requests
       - name: "Search for duplicate issues"
-        uses: actions/github-script@v3
+        uses: actions/github-script@v4.0.2
         with:
           script: |
             const q = `"${context.payload.issue.title}"+repo:${context.repo.owner}/${context.repo.repo}&type=issues&sort=created&order=desc&per_page=5`
